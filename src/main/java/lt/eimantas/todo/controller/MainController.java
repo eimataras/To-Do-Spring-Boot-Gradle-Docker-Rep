@@ -5,6 +5,8 @@ import lt.eimantas.todo.view.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -20,8 +22,9 @@ public class MainController {
     }
 
     @PostMapping("/add")
-    public void addItem(@RequestBody ItemDTO item) {
-        mainService.save(item);
+    public @ResponseBody ItemDTO addItem(@RequestBody ItemDTO item) {
+        item = mainService.save(item);
+        return item;
     }
 
     @PutMapping("/edit")
@@ -30,7 +33,9 @@ public class MainController {
     }
 
     @DeleteMapping("/delete")
-    public void deleteItem(@RequestParam Integer id) {
+    public @ResponseBody Optional<ItemDTO> deleteItem(@RequestParam Integer id) {
+        Optional<ItemDTO> result = mainService.findById(id);
         mainService.deleteById(id);
+        return result;
     }
 }
