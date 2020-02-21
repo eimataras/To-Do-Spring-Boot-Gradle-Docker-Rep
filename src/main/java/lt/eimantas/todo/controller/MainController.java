@@ -23,13 +23,16 @@ public class MainController {
 
     @PostMapping("/add")
     public @ResponseBody ItemDTO addItem(@RequestBody ItemDTO item) {
+        item.setIsDone(false);
         item = mainService.save(item);
         return item;
     }
 
     @PutMapping("/edit")
-    public void editItem(@RequestBody ItemDTO item) {
-        mainService.save(item);
+    public @ResponseBody ItemDTO editItem(@RequestBody ItemDTO item) {
+
+        item = mainService.save(item);
+        return item;
     }
 
     @DeleteMapping("/delete")
